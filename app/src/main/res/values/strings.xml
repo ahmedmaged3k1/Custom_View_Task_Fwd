@@ -11,4 +11,8 @@
     <string name="button_name">Click me</string>
     <string name="button_loading">We are loading </string>
     <string name="title_activity_detail">DetailActivity</string>
+    <string name="glide_image_loading_library">Glide Image Loading Library</string>
+    <string name="load_app_current_repo">Load App Current Repo</string>
+    <string name="retrofit_type_safe_http">Retrofit - Type Safe HTTP</string>
+    <string name="download_picture">Download Picture</string>
 </resources>
