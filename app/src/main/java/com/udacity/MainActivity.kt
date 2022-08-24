@@ -40,6 +40,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var radioSelected: RadioButton
     private lateinit var radioSelected2: RadioButton
     private lateinit var radioSelected3: RadioButton
+    private var complete = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,6 +52,7 @@ class MainActivity : AppCompatActivity() {
         createNotificationChannel()
 
         custom_button.setOnClickListener {
+            complete = true
             Log.d(TAG, "onCreate: asdasddsd")
             radioButton = findViewById(R.id.radioGroup)
             if (radioButton.checkedRadioButtonId != -1) {
@@ -146,6 +148,11 @@ class MainActivity : AppCompatActivity() {
 
 
         }
+        if (complete) {
+            // call when download completed
+            button.hasCompletedDownload()
+        }
+        button.hasCompletedDownload()
 
     }
 
