@@ -15,4 +15,7 @@
     <string name="load_app_current_repo">Load App Current Repo</string>
     <string name="retrofit_type_safe_http">Retrofit - Type Safe HTTP</string>
     <string name="download_picture">Download Picture</string>
+    <string name="file_name">File Name</string>
+    <string name="status">Status</string>
+    <string name="ok">Ok</string>
 </resources>
