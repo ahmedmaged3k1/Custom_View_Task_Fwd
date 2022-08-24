@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    app:layoutDescription="@xml/activity_detail_scene"
     tools:context=".DetailActivity">
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="204dp"
         android:layout_height="86dp"
-        android:layout_marginEnd="12dp"
-        android:gravity="center"
+        android:layout_marginTop="156dp"
 
+        android:layout_marginEnd="24dp"
+        android:gravity="center"
         android:textSize="22sp"
-        app:layout_constraintBottom_toTopOf="@+id/textView2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.496">
+        app:layout_constraintTop_toTopOf="parent">
 
     </TextView>
 
@@ -25,12 +25,14 @@
         android:id="@+id/textView"
         android:layout_width="105dp"
         android:layout_height="46dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="204dp"
+        android:layout_marginEnd="93dp"
         android:gravity="center"
         android:text="@string/status"
         android:textSize="22sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/textView2"
-        app:layout_constraintHorizontal_bias="0.134"
+        app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4">
 
@@ -40,16 +42,16 @@
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="71dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="164dp"
+        android:layout_marginEnd="34dp"
         android:gravity="center"
         android:text="@string/file_name"
         android:textSize="22sp"
-        app:layout_constraintBottom_toTopOf="@+id/textView"
         app:layout_constraintEnd_toStartOf="@+id/textView3"
+        app:layout_constraintHorizontal_bias="0.235"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.507">
+        app:layout_constraintTop_toTopOf="parent">
 
     </TextView>
 
@@ -57,30 +59,31 @@
         android:id="@+id/textView2"
         android:layout_width="137dp"
         android:layout_height="67dp"
-        android:layout_marginEnd="80dp"
-        android:gravity="center"
+        android:layout_marginTop="156dp"
 
+        android:layout_marginEnd="48dp"
+        android:gravity="center"
         android:textSize="22sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3">
 
     </TextView>
 
     <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/okButton"
         android:layout_width="197dp"
         android:layout_height="57dp"
-        android:id="@+id/okButton"
-        android:layout_marginBottom="44dp"
+        android:layout_marginTop="146dp"
+        android:layout_marginBottom="84dp"
         android:background="@drawable/round_corners_colured"
         android:text="@string/ok"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.429"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
-        app:layout_constraintVertical_bias="0.923">
+        app:layout_constraintTop_toBottomOf="@+id/textView">
 
     </androidx.appcompat.widget.AppCompatButton>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.motion.widget.MotionLayout>

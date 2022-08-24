@@ -7,6 +7,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.Shader
 import android.graphics.drawable.Drawable
 import android.os.Handler
 import android.util.AttributeSet
@@ -57,6 +58,11 @@ class LoadingButton @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         canvas.apply {
+            var  mShadow =  Paint(Paint.ANTI_ALIAS_FLAG)
+            mShadow.isDither = true;
+            mShadow.shader = Shader()
+
+            canvas.drawRect(0f, 0f, getWidth().toFloat(), getHeight().toFloat(), mShadow);
             textPaint.textSize = 85f
             canvas.drawText(text, 320f, 105f, textPaint)
 
@@ -68,14 +74,11 @@ class LoadingButton @JvmOverloads constructor(
 
     override fun performClick(): Boolean {
         super.performClick()
-        val animator = ObjectAnimator.ofFloat(this, View.ROTATION, -360f, 0f)
-        // val animator2 = ObjectAnimator.of(this.textPaint, View.ALPHA, -360f, 0f)
 
-        animator.duration = 1000
-        animator.start()
+
         if (background.equals(enabledBackground)) {
             background = disabledBackground
-            textColor = Color.BLACK
+            textColor = Color.WHITE
             textPaint.color = textColor
             text = "Download"
 
@@ -97,7 +100,7 @@ class LoadingButton @JvmOverloads constructor(
             animator.start()
             if (background.equals(enabledBackground)) {
                 background = disabledBackground
-                textColor = Color.BLACK
+                textColor = Color.WHITE
                 textPaint.color = textColor
                 text = "Download"
 

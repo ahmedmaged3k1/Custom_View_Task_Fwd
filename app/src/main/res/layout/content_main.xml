@@ -30,11 +30,17 @@
         android:layout_margin="20dp"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
-
         app:layout_constraintEnd_toEndOf="parent"
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.842" />
+        app:layout_constraintVertical_bias="0.842"
+
+        app:textColor="@color/white"
+        app:buttonBackground="#000000"
+        app:text=""
+
+        />
 
     <RadioGroup
         android:id="@+id/radioGroup"
