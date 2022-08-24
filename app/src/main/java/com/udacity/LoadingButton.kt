@@ -2,6 +2,7 @@ package com.udacity
 
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
+import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.graphics.Canvas
@@ -17,12 +18,15 @@ import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.content.withStyledAttributes
+import kotlinx.android.synthetic.main.content_main.view.*
 import kotlin.properties.Delegates
 
 
 class LoadingButton @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr)   {
+
+
     private var widthSize = 0
     private var heightSize = 0
     private var enabledBackground: Drawable? = null
@@ -55,6 +59,7 @@ class LoadingButton @JvmOverloads constructor(
     }
 
 
+    @SuppressLint("DrawAllocation")
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         canvas.apply {
@@ -74,8 +79,6 @@ class LoadingButton @JvmOverloads constructor(
 
     override fun performClick(): Boolean {
         super.performClick()
-
-
         if (background.equals(enabledBackground)) {
             background = disabledBackground
             textColor = Color.WHITE
@@ -93,11 +96,11 @@ class LoadingButton @JvmOverloads constructor(
         }
 
         Handler().postDelayed({
-            val animator = ObjectAnimator.ofFloat(this, View.ROTATION, -360f, 0f)
+            //val animator = ObjectAnimator.ofFloat(this, View.ROTATION, -360f, 0f)
             // val animator2 = ObjectAnimator.of(this.textPaint, View.ALPHA, -360f, 0f)
 
-            animator.duration = 1000
-            animator.start()
+           // animator.duration = 1000
+          //  animator.start()
             if (background.equals(enabledBackground)) {
                 background = disabledBackground
                 textColor = Color.WHITE
