@@ -6,13 +6,18 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.database.Cursor
 import android.media.RingtoneManager
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -41,24 +46,84 @@ class MainActivity : AppCompatActivity() {
         createNotificationChannel()
         registerReceiver(receiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
 
+
+    }
+
+    override fun onStart() {
+        super.onStart()
         custom_button.setOnClickListener {
             if (radioButton.checkedRadioButtonId != -1) {
                 val toast = Toast.makeText(applicationContext, "Downloading", Toast.LENGTH_SHORT)
                 toast.show()
                 when (radioButton.checkedRadioButtonId) {
                     1 -> {
-                        download(URL)
-                        makeNotificaiton(URL)
+
+                        var status: String = ""
+                        val intStatus = checkDownloadStatus(URL)
+                        if (intStatus == 1) {
+                            status = "Download Success"
+                        } else if (intStatus == 0) {
+                            status = "Download Failed"
+
+                        } else if (intStatus == 2) {
+                            status = "Downloading Successfully"
+
+                        } else if (intStatus == 3) {
+                            status = "Download is Running "
+
+                        }
+                        if (!checkForInternet(applicationContext))
+                        {
+                            status = "Download Failed"
+                        }
+                        makeNotificaiton(URL, status)
                     }
                     2 -> {
-                        download(URL2)
-                        makeNotificaiton(URL2)
+
+                        var status: String = ""
+                        val intStatus = checkDownloadStatus(URL2)
+                        if (intStatus == 1) {
+                            status = "Download Success"
+                        } else if (intStatus == 0) {
+                            status = "Download Failed"
+
+                        } else if (intStatus == 2) {
+                            status = "Downloading Successfully"
+
+                        } else if (intStatus == 3) {
+                            status = "Download is Running "
+
+                        }
+                        if (!checkForInternet(applicationContext))
+                        {
+                            status = "Download Failed"
+                        }
+                        makeNotificaiton(URL2, status)
 
 
                     }
                     3 -> {
-                        download(URL2)
-                        makeNotificaiton(URL3)
+
+                        var status: String = "Default "
+                        val intStatus = checkDownloadStatus(URL3)
+                        Log.d("TAG", "onCreate: $intStatus")
+                        if (intStatus == 1) {
+                            status = "Download Success"
+                        } else if (intStatus == 0) {
+                            status = "Download Failed"
+
+                        } else if (intStatus == 2) {
+                            status = "Downloading Successfully"
+
+                        } else if (intStatus == 3) {
+                            status = "Download is Running "
+
+                        }
+                        if (!checkForInternet(applicationContext))
+                        {
+                            status = "Download Failed"
+                        }
+                        makeNotificaiton(URL3, status)
 
                     }
 
@@ -79,28 +144,33 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
     private val receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             val id = intent?.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
         }
     }
 
-    private fun makeNotificaiton(url: String) {
+    private fun makeNotificaiton(url: String, status: String) {
         var title: String = " "
+        Log.d(TAG, "makeNotificaiton: $url")
         if (url.equals(URL)) {
-            title = "The Project 1 Is Downloaded"
+            title = "This Project  Is  Downloaded"
         }
         if (url.equals(URL2)) {
-            title = "The Project 2 Is Downloaded"
+            title = "The Glide Image  project  Is Downloaded"
         }
         if (url.equals(URL3)) {
-            title = "The Project 3 Is Downloaded"
+            title = "The Retrofit - Type Safe   Is Downloaded"
         }
         val intent = Intent(this, DetailActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
-        val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+        intent.putExtra("status", status)
+        intent.putExtra("File", title)
+
+        val pendingIntent: PendingIntent =
+            PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+
 
         val builder = NotificationCompat.Builder(this, "100")
             .setSmallIcon(R.drawable.ic_assistant_black_24dp)
@@ -118,7 +188,7 @@ class MainActivity : AppCompatActivity() {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name ="100"
+            val name = "100"
             val descriptionText = "Downloading Channel"
             val importance = NotificationManager.IMPORTANCE_DEFAULT
             val channel = NotificationChannel(100.toString(), name, importance).apply {
@@ -131,7 +201,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun download(url: String) {
+    private fun checkDownloadStatus(url: String): Int {
         val request =
             DownloadManager.Request(Uri.parse(url))
                 .setTitle(getString(R.string.app_name))
@@ -143,7 +213,34 @@ class MainActivity : AppCompatActivity() {
         val downloadManager = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
         downloadID =
             downloadManager.enqueue(request)// enqueue puts the download request in the queue.
+        val cursor: Cursor =
+            downloadManager.query(DownloadManager.Query().setFilterById(downloadID))
+        var statusId: Int = -1
+
+
+       if (cursor.moveToNext()) {
+            val status: Int = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS))
+            cursor.close()
+
+            if (status == DownloadManager.STATUS_FAILED) {
+                statusId = 0
+            } else if (status == DownloadManager.STATUS_PENDING || status == DownloadManager.STATUS_PAUSED) {
+                // do something pending or paused
+                statusId = 2
+            } else if (status == DownloadManager.STATUS_SUCCESSFUL) {
+                // do something when successful
+                statusId = 1
+            } else if (status == DownloadManager.STATUS_RUNNING) {
+                // do something when running
+                statusId = 3
+            }
+        }
+
+
+        Log.d(TAG, "checkDownloadStatus: $statusId")
+        return statusId
     }
+
 
     companion object {
         private const val URL =
@@ -153,6 +250,38 @@ class MainActivity : AppCompatActivity() {
         private const val URL3 =
             "https://github.com/bumptech/glide/archive/refs/heads/master.zip"
         private const val CHANNEL_ID = "channelId"
+    }
+    private fun checkForInternet(context: Context): Boolean {
+
+        // register activity with the connectivity manager service
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+        // if the android version is equal to M
+        // or greater we need to use the
+        // NetworkCapabilities to check what type of
+        // network has the internet connection
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+            // Returns a Network object corresponding to
+            // the currently active default data network.
+            val network = connectivityManager.activeNetwork ?: return false
+
+            // Representation of the capabilities of an active network.
+            val activeNetwork = connectivityManager.getNetworkCapabilities(network) ?: return false
+
+            return when {
+                activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+
+
+                else -> false
+            }
+        } else {
+            // if the android version is below M
+            @Suppress("DEPRECATION") val networkInfo =
+                connectivityManager.activeNetworkInfo ?: return false
+            @Suppress("DEPRECATION")
+            return networkInfo.isConnected
+        }
     }
 
 
