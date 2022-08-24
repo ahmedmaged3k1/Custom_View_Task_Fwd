@@ -148,11 +148,6 @@ class MainActivity : AppCompatActivity() {
 
 
         }
-        if (complete) {
-            // call when download completed
-            button.hasCompletedDownload()
-        }
-        button.hasCompletedDownload()
 
     }
 
