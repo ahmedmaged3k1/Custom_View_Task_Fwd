@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".MainActivity"
-    tools:showIn="@layout/activity_main">
+    app:layoutDescription="@xml/content_main_scene"
+    tools:context=".MainActivity">
 
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:id="@+id/imageView7"
+        android:layout_width="411dp"
+        android:layout_height="188dp"
         android:layout_marginTop="16dp"
-        android:src="@drawable/ic_assistant_black_24dp"
         android:background="#000000"
+        android:contentDescription="@string/download_picture"
+        android:src="@drawable/ic_assistant_black_24dp"
         app:layout_constraintBottom_toTopOf="@+id/radioGroup"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        android:contentDescription="@string/download_picture" />
+        app:layout_constraintVertical_bias="0.506" />
 
     <com.udacity.LoadingButton
         android:id="@+id/custom_button"
@@ -32,7 +32,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
 
         app:layout_constraintEnd_toEndOf="parent"
-
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.842" />
@@ -47,30 +46,30 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.643">
+        app:layout_constraintVertical_bias="0.778">
 
         <RadioButton
+            android:id="@+id/project"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:text="@string/load_app_current_repo"
-            android:id="@+id/project"
             android:textSize="20sp">
 
         </RadioButton>
 
         <RadioButton
+            android:id="@+id/glide"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:id="@+id/glide"
             android:text="@string/glide_image_loading_library"
             android:textSize="20sp">
 
         </RadioButton>
 
         <RadioButton
+            android:id="@+id/retrofit"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:id="@+id/retrofit"
             android:text="@string/retrofit_type_safe_http"
             android:textSize="20sp">
 
@@ -78,4 +77,4 @@
     </RadioGroup>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.motion.widget.MotionLayout>
