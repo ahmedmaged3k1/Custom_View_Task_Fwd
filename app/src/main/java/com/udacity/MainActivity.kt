@@ -43,15 +43,11 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         button = findViewById(R.id.custom_button)
         radioButton = findViewById(R.id.radioGroup)
-        createNotificationChannel()
         registerReceiver(receiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
+        createNotificationChannel()
 
-
-    }
-
-    override fun onStart() {
-        super.onStart()
         custom_button.setOnClickListener {
+
             if (radioButton.checkedRadioButtonId != -1) {
                 val toast = Toast.makeText(applicationContext, "Downloading", Toast.LENGTH_SHORT)
                 toast.show()
@@ -142,7 +138,9 @@ class MainActivity : AppCompatActivity() {
 
 
         }
+
     }
+
 
     private val receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -171,7 +169,7 @@ class MainActivity : AppCompatActivity() {
         val pendingIntent: PendingIntent =
             PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
-
+        var id = Math.random()
         val builder = NotificationCompat.Builder(this, "100")
             .setSmallIcon(R.drawable.ic_assistant_black_24dp)
             .setContentTitle("Udacity Android Kotlin Nano Degree")
