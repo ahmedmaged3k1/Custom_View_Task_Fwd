@@ -53,7 +53,7 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:text="@string/load_app_current_repo"
-
+            android:id="@+id/project"
             android:textSize="20sp">
 
         </RadioButton>
@@ -61,6 +61,7 @@
         <RadioButton
             android:layout_width="match_parent"
             android:layout_height="60dp"
+            android:id="@+id/glide"
             android:text="@string/glide_image_loading_library"
             android:textSize="20sp">
 
@@ -69,6 +70,7 @@
         <RadioButton
             android:layout_width="match_parent"
             android:layout_height="60dp"
+            android:id="@+id/retrofit"
             android:text="@string/retrofit_type_safe_http"
             android:textSize="20sp">
 

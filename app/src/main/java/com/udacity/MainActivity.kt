@@ -18,6 +18,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -36,95 +37,102 @@ class MainActivity : AppCompatActivity() {
     private lateinit var action: NotificationCompat.Action
     private lateinit var button: LoadingButton
     private lateinit var radioButton: RadioGroup
+    private lateinit var radioSelected: RadioButton
+    private lateinit var radioSelected2: RadioButton
+    private lateinit var radioSelected3: RadioButton
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
         button = findViewById(R.id.custom_button)
-        radioButton = findViewById(R.id.radioGroup)
         registerReceiver(receiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
         createNotificationChannel()
 
         custom_button.setOnClickListener {
-
+            Log.d(TAG, "onCreate: asdasddsd")
+            radioButton = findViewById(R.id.radioGroup)
             if (radioButton.checkedRadioButtonId != -1) {
                 val toast = Toast.makeText(applicationContext, "Downloading", Toast.LENGTH_SHORT)
                 toast.show()
-                when (radioButton.checkedRadioButtonId) {
-                    1 -> {
+                Log.d(TAG, "onCreate: radio ${radioButton.checkedRadioButtonId} ")
+                radioSelected = findViewById(R.id.project)
+                radioSelected2 = findViewById(R.id.glide)
+                radioSelected3 = findViewById(R.id.retrofit)
 
-                        var status: String = ""
-                        val intStatus = checkDownloadStatus(URL)
-                        if (intStatus == 1) {
-                            status = "Download Success"
-                        } else if (intStatus == 0) {
-                            status = "Download Failed"
 
-                        } else if (intStatus == 2) {
-                            status = "Downloading Successfully"
 
-                        } else if (intStatus == 3) {
-                            status = "Download is Running "
 
-                        }
-                        if (!checkForInternet(applicationContext))
-                        {
-                            status = "Download Failed"
-                        }
-                        makeNotificaiton(URL, status)
-                    }
-                    2 -> {
+                if (radioSelected.isChecked) {
 
-                        var status: String = ""
-                        val intStatus = checkDownloadStatus(URL2)
-                        if (intStatus == 1) {
-                            status = "Download Success"
-                        } else if (intStatus == 0) {
-                            status = "Download Failed"
+                    var status: String = ""
+                    val intStatus = checkDownloadStatus(URL)
+                    if (intStatus == 1) {
+                        status = "Download Success"
+                    } else if (intStatus == 0) {
+                        status = "Download Failed"
 
-                        } else if (intStatus == 2) {
-                            status = "Downloading Successfully"
+                    } else if (intStatus == 2) {
+                        status = "Downloading Successfully"
 
-                        } else if (intStatus == 3) {
-                            status = "Download is Running "
-
-                        }
-                        if (!checkForInternet(applicationContext))
-                        {
-                            status = "Download Failed"
-                        }
-                        makeNotificaiton(URL2, status)
-
+                    } else if (intStatus == 3) {
+                        status = "Download is Running "
 
                     }
-                    3 -> {
+                    if (!checkForInternet(applicationContext)) {
+                        status = "Download Failed"
+                    }
 
-                        var status: String = "Default "
-                        val intStatus = checkDownloadStatus(URL3)
-                        Log.d("TAG", "onCreate: $intStatus")
-                        if (intStatus == 1) {
-                            status = "Download Success"
-                        } else if (intStatus == 0) {
-                            status = "Download Failed"
+                    makeNotificaiton(URL, status)
+                }
+                if (radioSelected2.isChecked) {
 
-                        } else if (intStatus == 2) {
-                            status = "Downloading Successfully"
+                    var status: String = ""
+                    val intStatus = checkDownloadStatus(URL2)
+                    if (intStatus == 1) {
+                        status = "Download Success"
+                    } else if (intStatus == 0) {
+                        status = "Download Failed"
 
-                        } else if (intStatus == 3) {
-                            status = "Download is Running "
+                    } else if (intStatus == 2) {
+                        status = "Downloading Successfully"
 
-                        }
-                        if (!checkForInternet(applicationContext))
-                        {
-                            status = "Download Failed"
-                        }
-                        makeNotificaiton(URL3, status)
+                    } else if (intStatus == 3) {
+                        status = "Download is Running "
 
                     }
+                    if (!checkForInternet(applicationContext)) {
+                        status = "Download Failed"
+                    }
+                    makeNotificaiton(URL2, status)
 
 
                 }
+                if (radioSelected3.isChecked) {
+
+                    var status: String = "Default "
+                    val intStatus = checkDownloadStatus(URL3)
+                    Log.d("TAG", "onCreate: $intStatus")
+                    if (intStatus == 1) {
+                        status = "Download Success"
+                    } else if (intStatus == 0) {
+                        status = "Download Failed"
+
+                    } else if (intStatus == 2) {
+                        status = "Downloading Successfully"
+
+                    } else if (intStatus == 3) {
+                        status = "Download is Running "
+
+                    }
+                    if (!checkForInternet(applicationContext)) {
+                        status = "Download Failed"
+                    }
+                    makeNotificaiton(URL3, status)
+
+                }
+
 
             } else {
                 val toast = Toast.makeText(
@@ -149,6 +157,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun makeNotificaiton(url: String, status: String) {
+        Log.d(TAG, "makeNotificaiton: entered ")
         var title: String = " "
         Log.d(TAG, "makeNotificaiton: $url")
         if (url.equals(URL)) {
@@ -216,7 +225,7 @@ class MainActivity : AppCompatActivity() {
         var statusId: Int = -1
 
 
-       if (cursor.moveToNext()) {
+        if (cursor.moveToNext()) {
             val status: Int = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS))
             cursor.close()
 
@@ -249,10 +258,12 @@ class MainActivity : AppCompatActivity() {
             "https://github.com/bumptech/glide/archive/refs/heads/master.zip"
         private const val CHANNEL_ID = "channelId"
     }
+
     private fun checkForInternet(context: Context): Boolean {
 
         // register activity with the connectivity manager service
-        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
         // if the android version is equal to M
         // or greater we need to use the
