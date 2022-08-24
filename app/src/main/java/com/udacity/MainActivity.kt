@@ -185,7 +185,7 @@ class MainActivity : AppCompatActivity() {
             .setContentText(title)
             .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
             .setPriority(NotificationCompat.PRIORITY_HIGH)
-            .setContentIntent(pendingIntent)
+            .addAction(R.drawable.abc_vector_test,"Check The Status",pendingIntent)
             .setStyle(NotificationCompat.DecoratedCustomViewStyle())
 
         val manager = NotificationManagerCompat.from(this).notify(100, builder.build())
