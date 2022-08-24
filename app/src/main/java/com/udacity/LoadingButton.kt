@@ -32,6 +32,10 @@ class LoadingButton @JvmOverloads constructor(
     private var progress: Double = 0.0
     private lateinit var valueAnimator: ValueAnimator
 
+    private val progressPaint: Paint = Paint().apply {
+        color = 0XFFF.toInt()
+    }
+
 
     private var buttonState: ButtonState by Delegates.observable(ButtonState.Completed) { p, old, new ->
     }
@@ -109,6 +113,12 @@ class LoadingButton @JvmOverloads constructor(
             //  text= getString(R.styleable.LoadingButton_text).toString()
         }
     }
+    private val rect = RectF(
+        740f,
+        50f,
+        810f,
+        110f
+    )
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.FILL
         textAlign = Paint.Align.CENTER
@@ -130,6 +140,7 @@ class LoadingButton @JvmOverloads constructor(
                 (width * (progress / 100)).toFloat(), height.toFloat(), paint
             )
         }
+        canvas.drawArc(rect, 0f, (360 * (progress / 100)).toFloat(), true, paint)
 
         val buttonText = if (buttonState == ButtonState.Loading)
             "Loading "
